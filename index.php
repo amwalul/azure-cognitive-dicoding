@@ -1,26 +1,3 @@
-<?php
-require_once 'vendor/autoload.php';
-use MicrosoftAzure\Storage\Blob\BlobRestProxy;
-use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
-use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
-use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
-use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
-$connectionString = "DefaultEndpointsProtocol=https;AccountName=dicodingweb;AccountKey=EniRF8FL5f7BHhYoJeRxPuST+fu9opnlxhh788ol1H4uybO520au54NV9uXfj1wC+N7reu7h7mbBZMqxza1rRg==;EndpointSuffix=core.windows.net";
-$containerName = "submission";
-// Create blob client.
-$blobClient = BlobRestProxy::createBlobService($connectionString);
-if (isset($_POST['submit'])) {
-	$fileToUpload = strtolower($_FILES["fileToUpload"]["name"]);
-	$content = fopen($_FILES["fileToUpload"]["tmp_name"], "r");
-	// echo fread($content, filesize($fileToUpload));
-	$blobClient->createBlockBlob($containerName, $fileToUpload, $content);
-	header("Location: index.php");
-}
-$listBlobsOptions = new ListBlobsOptions();
-$listBlobsOptions->setPrefix("");
-$result = $blobClient->listBlobs($containerName, $listBlobsOptions);
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,5 +51,28 @@ $result = $blobClient->listBlobs($containerName, $listBlobsOptions);
 		</table>
 
 	</div>
+	
+<?php
+require_once 'vendor/autoload.php';
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
+use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
+use MicrosoftAzure\Storage\Blob\Models\ListBlobsOptions;
+use MicrosoftAzure\Storage\Blob\Models\CreateContainerOptions;
+use MicrosoftAzure\Storage\Blob\Models\PublicAccessType;
+$connectionString = "DefaultEndpointsProtocol=https;AccountName=dicodingweb;AccountKey=EniRF8FL5f7BHhYoJeRxPuST+fu9opnlxhh788ol1H4uybO520au54NV9uXfj1wC+N7reu7h7mbBZMqxza1rRg==;EndpointSuffix=core.windows.net";
+$containerName = "submission";
+// Create blob client.
+$blobClient = BlobRestProxy::createBlobService($connectionString);
+if (isset($_POST['submit'])) {
+	$fileToUpload = strtolower($_FILES["fileToUpload"]["name"]);
+	$content = fopen($_FILES["fileToUpload"]["tmp_name"], "r");
+	// echo fread($content, filesize($fileToUpload));
+	$blobClient->createBlockBlob($containerName, $fileToUpload, $content);
+	header("Location: index.php");
+}
+$listBlobsOptions = new ListBlobsOptions();
+$listBlobsOptions->setPrefix("");
+$result = $blobClient->listBlobs($containerName, $listBlobsOptions);
+?>
 </body>
 </html>
