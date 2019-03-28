@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
 	$content = fopen($_FILES["fileToUpload"]["tmp_name"], "r");
 	// echo fread($content, filesize($fileToUpload));
 	$blobClient->createBlockBlob($containerName, $fileToUpload, $content);
-	header("Location: blobstorage.php");
+	header("Location: index.php");
 }
 $listBlobsOptions = new ListBlobsOptions();
 $listBlobsOptions->setPrefix("");
@@ -34,7 +34,7 @@ $result = $blobClient->listBlobs($containerName, $listBlobsOptions);
 		<h1 class="text-center">Analyze Image</h1>
 		
 		<div class="mt-4 mb-2">
-			<form class="d-flex justify-content-center" action="blobstorage.php" method="post" enctype="multipart/form-data">
+			<form class="d-flex justify-content-center" action="index.php" method="post" enctype="multipart/form-data">
 				<input type="file" name="fileToUpload" accept=".jpeg,.jpg,.png" required="">
 				<input type="submit" name="submit" value="Upload">
 			</form>
